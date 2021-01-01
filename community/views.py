@@ -1,34 +1,40 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
-from .serializers import CommunityListSerializer, CommunitySerializer, CommentSerializer
+from .serializers import CommunityListSerializer,  CommentSerializer
 from .models import Community, Comment
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
 @api_view(['GET', 'POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated]) 
 def community_list_create(request):
     if request.method == 'GET':
         communities = Community.objects.all()
         serializer = CommunityListSerializer(communities, many=True)
         return Response(serializer.data)
     else:
-        serializer = CommunitySerializer(data=request.data)
+        serializer = CommunityListSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            # serializer.save(user=request.user)
-            serializer.save()
+            serializer.save(user=request.user)
+            # serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated]) 
 def community_detail_update_delete(request, community_pk):
     community = get_object_or_404(Community, pk=community_pk)
     if request.method == 'GET':
-        serializer = CommunitySerializer(community)
+        serializer = CommunityListSerializer(community)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = CommunitySerializer(community, data=request.data)
+        serializer = CommunityListSerializer(community, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
