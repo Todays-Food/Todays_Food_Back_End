@@ -16,6 +16,7 @@ def community_list_create(request):
     else:
         serializer = CommunitySerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
+            # serializer.save(user=request.user)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -40,6 +41,8 @@ def community_detail_update_delete(request, community_pk):
 @api_view(['POST'])
 def create_comment(request, community_pk):
     community = get_object_or_404(Community, pk=community_pk)
+    comment = Comment(content=request.data.get('content'), community=community, user=request.user)
+    comment.save()
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(community=community)
@@ -48,7 +51,7 @@ def create_comment(request, community_pk):
 
 @api_view(['GET'])
 def comment_list(request):
-    comments = Comment.objects.all()
+    comments = Comment.objects.filter(community_id=community_id)
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 
