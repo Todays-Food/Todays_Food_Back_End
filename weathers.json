@@ -2,11 +2,11 @@
 	{
 		"model": "articles.weather_api",
 		"fields": {
-			"location": "전라북도 전주시 완산구 중앙동1가",
-			"weather_summary": "눈",
-			"now_temp": "-1℃",
-			"dust": "22㎍/㎥",
-			"little_dust": "13㎍/㎥"
+			"location": "강원도 인제군 상남면",
+			"weather_summary": "맑음",
+			"now_temp": "-15℃",
+			"dust": "19㎍/㎥",
+			"little_dust": "14㎍/㎥"
 		}
 	}
 ]

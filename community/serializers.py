@@ -7,8 +7,9 @@ class CommunityListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Community
         # fields = ('id', 'title', 'content', 'created_at', 'updated_at',)
-        fields = ('id', 'title', 'content', 'created_at', 'updated_at', 'user',)
-        # fields = ('id', 'title', 'content', 'created_at', 'updated_at', 'user', 'like_users',)
+        # fields = ('id', 'title', 'content', 'created_at', 'updated_at', 'user',)
+        fields = ('id', 'title', 'content', 'created_at', 'updated_at', 'user', 'like_users', 'user_id',)
+        # fields = ('id', 'title', 'content', 'created_at', 'updated_at', 'user', 'user_id',)
 
 
 # 댓글
